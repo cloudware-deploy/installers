@@ -1,0 +1,42 @@
+#!/bin/bash
+SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_PATH/set_colors.sh"
+
+
+if [ ! -n "$MYBASH" ]; then
+	MYBASH=$HOME/.bash_profile.d
+fi
+
+if [ -d "$MYBASH" ]; then
+	printf "${YELLOW}You already have .bash_profile.d installed.${NORMAL}\n"
+	printf "You'll need to remove $MYBASH if you want to re-install.\n"
+	exit
+fi
+
+# Prevent the cloned repository from having insecure permissions.
+umask g-w,o-w
+
+printf "${BLUE}Cloning .bash_profile.d...${NORMAL}\n"
+hash git >/dev/null 2>&1 || {
+	echo "Error: git is not installed"
+	exit 1
+}
+env git clone --depth=1 git@git.cldware.com:open-source/bash-profile-d.git $MYBASH 2>/dev/null && rm -rf $MYBASH/.git || {
+	printf "Error: git clone of .bash_profile.d repo failed\n"
+	exit 1
+}
+
+printf "Please, define your development path: "
+read development_path
+printf "${BLUE}Setting up your development path ($development_path)${NORMAL}\n"
+
+printf "${BLUE}Using the .bash_profile.d${NORMAL}\n"
+cat >> $HOME/.bash_profile <<-EOF
+	# .bash_profile.d options
+	export MYBASH=$MYBASH
+	source \$MYBASH/init.sh
+	export _DEVELOPMENT_BASE_PATH=$development_path
+	EOF
+
+printf "${GREEN}bash_profile.d is successfully installed${NORMAL}\n"
+env bash
