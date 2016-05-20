@@ -31,6 +31,8 @@ fi
 if [ -d "$MYBASH" ]; then
 	printf "${YELLOW}You already have .bash_profile.d installed.${NORMAL}\n"
 	printf "You'll need to remove $MYBASH if you want to re-install.\n"
+  printf "Use the uninstaller:\n"
+  printf "    bash -c \"\$(curl -sSL http://get.git.cldware.com/uninstall-bash-profile-d)\""
 	exit
 fi
 
