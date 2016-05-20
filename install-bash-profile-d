@@ -47,8 +47,11 @@ env git clone --depth=1 git@git.cldware.com:open-source/bash-profile-d.git $MYBA
 	exit 1
 }
 
-printf "Please, define your development path: "
-read development_path
+read -p "Please, define your development path [$(pwd)]: " development_path
+if [ ${#development_path} -eq 0 ]; then
+  development_path="$(pwd)"
+fi
+
 printf "${BLUE}Setting up your development path ($development_path)${NORMAL}\n"
 
 printf "${BLUE}Using the .bash_profile.d${NORMAL}\n"
@@ -60,4 +63,5 @@ cat >> $HOME/.bash_profile <<-EOF
 	EOF
 
 printf "${GREEN}bash_profile.d is successfully installed${NORMAL}\n"
-env bash
+
+exec bash -l

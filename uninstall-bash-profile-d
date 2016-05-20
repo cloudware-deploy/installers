@@ -47,3 +47,5 @@ sed -i.bak '/^export _DEVELOPMENT_BASE_PATH/d' ~/.bash_profile
 rm ~/.bash_profile.bak
 
 printf "${GREEN}bash_profile.d is successfully uninstalled${NORMAL}\n"
+
+exec bash -l
