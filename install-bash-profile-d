@@ -30,10 +30,33 @@ fi
 
 if [ -d "$MYBASH" ]; then
 	printf "${YELLOW}You already have .bash_profile.d installed.${NORMAL}\n"
-	printf "You'll need to remove $MYBASH if you want to re-install.\n"
-  printf "Use the uninstaller:\n"
-  printf "    bash -c \"\$(curl -sSL http://get.git.cldware.com/uninstall-bash-profile-d)\""
-	exit
+
+  read -s -n 1 -p "Overwrite? [Y/n] " OVERWRITE
+
+  case ${OVERWRITE:-y} in
+    y | Y )
+      printf "Yes\n\n"
+      printf "${BLUE}Removing $MYBASH...${NORMAL}\n"
+
+      rm -rf $MYBASH
+
+      printf "${BLUE}Removing .bash_profile patch${NORMAL}\n"
+
+      sed -i.bak '/^# \.bash_profile\.d options/d' ~/.bash_profile
+      sed -i.bak '/^export MYBASH=/d' ~/.bash_profile
+      sed -i.bak '/^source \$MYBASH\/init\.sh/d' ~/.bash_profile
+      sed -i.bak '/^export _DEVELOPMENT_BASE_PATH/d' ~/.bash_profile
+
+      ;;
+    *)
+      printf "No\n\n"
+      printf "You'll need to remove $MYBASH if you want to re-install.\n"
+      printf "Or use the uninstaller:\n"
+      printf "    bash -c \"\$(curl -sSL http://get.git.cldware.com/uninstall-bash-profile-d)\""
+      exit
+
+      ;;
+  esac
 fi
 
 # Prevent the cloned repository from having insecure permissions.
