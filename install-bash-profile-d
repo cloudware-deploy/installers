@@ -52,7 +52,7 @@ if [ -d "$MYBASH" ]; then
       printf "No\n\n"
       printf "You'll need to remove $MYBASH if you want to re-install.\n"
       printf "Or use the uninstaller:\n"
-      printf "    bash -c \"\$(curl -sSL http://get.git.cldware.com/uninstall-bash-profile-d)\""
+      printf "    bash -c \"\$(curl -sSL https://raw.githubusercontent.com/cloudware-deploy/installers/master/uninstall-bash-profile-d)\""
       exit
 
       ;;
