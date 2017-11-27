@@ -67,7 +67,7 @@ hash git >/dev/null 2>&1 || {
 	echo "Error: git is not installed"
 	exit 1
 }
-env git clone --depth=1 git@git.cldware.com:open-source/bash-profile-d.git $MYBASH 2>/dev/null && rm -rf $MYBASH/.git || {
+env git clone --depth=1 git@github.com:cloudware-deploy/bash-profile-d.git $MYBASH 2>/dev/null && rm -rf $MYBASH/.git || {
 	printf "Error: git clone of .bash_profile.d repo failed\n"
 	exit 1
 }
